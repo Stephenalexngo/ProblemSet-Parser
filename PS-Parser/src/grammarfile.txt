@@ -1,1 +1,17 @@
-start : 0 | 1 ;
+start: expression;
+
+expression : parenthesis_expression operator_expression ;
+operator_expression : plus_expression | multi_expression ;
+parenthesis_expression : OPEN_PAREN expression CLOSE_PAREN | OPEN_BRACE expression CLOSE_BRACE | value_expression operator_expression ;
+plus_expression : PLUS expression | ;
+multi_expression : MULTI expression | ;
+
+value_expression : digit+ ;
+digit : '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
+
+OPEN_PAREN : '(' ;
+CLOSE_PAREN : ')' ;
+OPEN_BRACE : '[' ;
+CLOSE_BRACE : ']' ;
+PLUS : '+' ;
+MULTI : '*' ;
