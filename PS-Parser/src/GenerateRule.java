@@ -28,7 +28,7 @@ public class GenerateRule {
 
                 for (String word : arr){
                     if(leftside){
-                        strkindLHS.setName(word);
+                        strkindLHS.setName(word.replace(" ", ""));
                         strkindLHS.setKind("nonepsilon");
                         newRule.setLHS(strkindLHS);
                         leftside = false;
