@@ -5,6 +5,11 @@ public class StringKind {
     public StringKind(){
     }
 
+    public StringKind(String kind, String name){
+        this.KIND = kind;
+        this.NAME = name;
+    }
+
     public void setKind(String kind){
         this.KIND = kind;
     }
