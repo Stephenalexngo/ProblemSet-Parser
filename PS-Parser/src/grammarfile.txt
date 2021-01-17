@@ -1,4 +1,4 @@
-start: expression;
+start : expression;
 
 expression : parenthesis_expression operator_expression ;
 operator_expression : plus_expression | multi_expression | ;
