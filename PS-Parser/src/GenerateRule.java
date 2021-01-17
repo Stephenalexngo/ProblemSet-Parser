@@ -23,10 +23,14 @@ public class GenerateRule {
                 String[] arr = line.replace(";", "").split(":");
                 boolean leftside = true;
                 Rule newRule = new Rule();
+                StringKind strkindLHS = new StringKind();
+                    // STRING KIND FOR LHS
 
                 for (String word : arr){
                     if(leftside){
-                        newRule.setLHS(word);
+                        strkindLHS.setName(word);
+                        strkindLHS.setKind("nonepsilon");
+                        newRule.setLHS(strkindLHS);
                         leftside = false;
                     }
                     else{
@@ -36,6 +40,10 @@ public class GenerateRule {
                         for(String eachRule : arrRule){
                             String[] insideRule = eachRule.split(" ");
                             ArrayList<StringKind> arrStringKind = new ArrayList<StringKind>();
+
+                            if(eachRule.equals(" ")){
+                                strkindLHS.setKind("epsilon");
+                            }
 
                             for(String stringkind : insideRule){
                                 if(!stringkind.equals("")){
@@ -73,7 +81,7 @@ public class GenerateRule {
                     }
                 }
 
-                grammarRules.put(newRule.getLHS(), newRule);
+                grammarRules.put(newRule.getLHS().getName(), newRule);
             }
         }
 

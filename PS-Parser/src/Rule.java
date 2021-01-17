@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
 public class Rule {
-    private String LHS;
+    private StringKind LHS;
     private ArrayList<ArrayList<StringKind> > RHS;
 
     public Rule(){
     }
 
-    public void setLHS(String lhs){
+    public void setLHS(StringKind lhs){
         this.LHS = lhs;
     }
 
@@ -15,7 +15,7 @@ public class Rule {
         this.RHS = rhs;
     }
 
-    public String getLHS(){
+    public StringKind getLHS(){
         return this.LHS;
     }
 
