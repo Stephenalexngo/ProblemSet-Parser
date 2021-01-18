@@ -23,7 +23,7 @@ public class GenerateRule {
                 String[] arr = line.replace(";", "").split(":");
                 boolean leftside = true;
                 Rule newRule = new Rule();
-                StringKind strkindLHS = new StringKind();
+                StringKind strkindLHS = new StringKind("null","null");
 
                 for (String word : arr){
                     if(leftside){
@@ -46,7 +46,7 @@ public class GenerateRule {
 
                             for(String stringkind : insideRule){
                                 if(!stringkind.equals("")){
-                                    StringKind strkind = new StringKind();
+                                    StringKind strkind = new StringKind("null","null");
                                     stringkind = stringkind.replace("\'", "");
 
                                     if(stringkind.length() > 1){

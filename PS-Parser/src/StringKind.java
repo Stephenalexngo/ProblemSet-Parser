@@ -2,9 +2,6 @@ public class StringKind {
     private String KIND;
     private String NAME;
 
-    public StringKind(){
-    }
-
     public StringKind(String kind, String name){
         this.KIND = kind;
         this.NAME = name;

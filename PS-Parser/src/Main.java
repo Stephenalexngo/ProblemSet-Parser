@@ -10,11 +10,11 @@ public class Main {
     static Stack<StringKind> grammar_stack = new Stack<StringKind>();
     static Stack<ArrayList<StringKind> > history_stack = new Stack<ArrayList<StringKind> >();
     static Stack<Character> input_stack = new Stack<Character>();
-    static StringKind history_parent = new StringKind();
+    static StringKind history_parent = new StringKind("null","null");
     static int currholder = 0;
-    // static boolean isMultiple = false; 
-    // static boolean isRequired = false;
+    static boolean isRequired = true;
     static boolean isAccepted = true;
+    static int curMultiple = 0;
     
     static HashMap<String,Rule> grammar_rules = new HashMap<String,Rule>();
 
@@ -48,13 +48,21 @@ public class Main {
         }
 
         // grammar expansion
-        // if(grammar_stack.peek().getKind().equals("normal")){
-        //     grammar_stack.pop();
-        // }
-        // else{
-            // one to many implementation
-        // }
-        grammar_stack.pop();
+        if(grammar_stack.peek().getKind().equals("normal")){
+            grammar_stack.pop();
+            curMultiple = 0;
+            isRequired = true;
+        }
+        else{
+            if(curMultiple == 0){
+                curMultiple = 1;
+                isRequired = true;
+            }
+            else if(curMultiple == 1){
+                isRequired = false;
+            }
+        }
+        
         currholder = 0;
 
         for(int y=curRHS.get(0).size()-1; y>-1; y--){
@@ -79,42 +87,58 @@ public class Main {
             history_stack.pop();
         }
         else{
-            if(history_parent.getKind().equals("nonepsilon")){
+            if(!isRequired){
+                grammar_stack.pop();
+                isRequired = true;
+            }
+            else if(history_parent.getName().equals("null")){
                 isAccepted = false;
+            }
+            else if(history_parent.getKind().equals("nonepsilon")){
+                isAccepted = false;
+            }
+            else{
+                history_parent = new StringKind("null","null");
             }
         }
     }
 
     static void parse(){
         while(!input_stack.isEmpty() && isAccepted){
+        // for(int x=0; x<40; x++){
             if(!grammar_stack.isEmpty()){
                 if( Character.isLowerCase(grammar_stack.peek().getName().charAt(0)) ){
                     expand(grammar_stack.peek().getName());
                 }
                 else if( Character.isUpperCase(grammar_stack.peek().getName().charAt(0)) ){
-                    System.out.println("grammar rule = " + grammar_rules.get(grammar_stack.peek().getName()).getRHS().get(0).get(0).getName() + " === " + input_stack.peek().toString());
-                    System.out.println(grammar_rules.get(grammar_stack.peek().getName()).getRHS().get(0).get(0).getName().equals(input_stack.peek().toString()));
+                    // System.out.println("grammar rule = " + grammar_rules.get(grammar_stack.peek().getName()).getRHS().get(0).get(0).getName() + " === " + input_stack.peek().toString());
+                    // System.out.println(grammar_rules.get(grammar_stack.peek().getName()).getRHS().get(0).get(0).getName().equals(input_stack.peek().toString()));
                     if( grammar_rules.get(grammar_stack.peek().getName()).getRHS().get(0).get(0).getName().equals(input_stack.peek().toString()) ){
                         input_stack.pop();
                         grammar_stack.pop();
                         history_stack.clear();
-                        history_parent = new StringKind();
+                        history_parent = new StringKind("null","null");
                         currholder = 0;
-                        System.out.println("ENTERED");
                     }
                     else{
                         performBacktrack();
                     }
                 }
 
-                System.out.println("CURRENT PEEK = " + grammar_stack.peek().getName());
-                System.out.println("GRAMMAR STACK = " + grammar_stack.size());
-                System.out.println("currholder = " + currholder);
+                // System.out.println("CURRENT PEEK = " + grammar_stack.peek().getName());
+                // System.out.println("GRAMMAR STACK = " + grammar_stack.size());
+                // System.out.println("currholder = " + currholder);
+                // System.out.println("isAccepted = " + isAccepted);
+                // System.out.println();
             }
             else{
                 isAccepted = false;
                 break;
             }
+        }
+
+        if(!isRequired || curMultiple == 1){
+            grammar_stack.pop();
         }
 
         if(!isAccepted)
@@ -129,7 +153,8 @@ public class Main {
                 }
                 else{
                     while(!grammar_stack.isEmpty()){
-                        if(grammar_rules.get(grammar_stack.peek().getName()).getLHS().getKind().equals("epsilon")){
+                        String finalrule = grammar_stack.peek().getName().replace(" ", "");
+                        if(grammar_rules.get(finalrule).getLHS().getKind().equals("epsilon")){
                             grammar_stack.pop();
                         }
                         else{
@@ -160,9 +185,20 @@ public class Main {
         grammar_rules = generate_rule.generate();
 
         while( (line = br.readLine()) != null){
-            line = line.replace(" ", "");
-            startup(line);
-            parse();
+            if(!line.equals("")){
+                line = line.replace(" ", "");
+                startup(line);
+                parse();
+
+                grammar_stack = new Stack<StringKind>();
+                history_stack = new Stack<ArrayList<StringKind> >();
+                input_stack = new Stack<Character>();
+                history_parent = new StringKind("null","null");
+                currholder = 0;
+                isRequired = true;
+                isAccepted = true;
+                curMultiple = 0;
+            }
         }
 
         // System.out.println("HELLO = "+grammar_rules.keySet().contains("digit"));
