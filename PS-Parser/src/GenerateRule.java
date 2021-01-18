@@ -24,7 +24,6 @@ public class GenerateRule {
                 boolean leftside = true;
                 Rule newRule = new Rule();
                 StringKind strkindLHS = new StringKind();
-                    // STRING KIND FOR LHS
 
                 for (String word : arr){
                     if(leftside){
