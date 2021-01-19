@@ -103,7 +103,7 @@ public class Main {
         }
     }
 
-    static void parse(){
+    static String parse(){
         while(!input_stack.isEmpty() && isAccepted){
         // for(int x=0; x<40; x++){
             if(!grammar_stack.isEmpty()){
@@ -142,14 +142,14 @@ public class Main {
         }
 
         if(!isAccepted)
-            System.out.println("REJECT");
+            return ("REJECT. Offending Token '" + input_stack.peek() + "'") ;
         else{
             if(!input_stack.isEmpty()){
-                System.out.println("REJECT");
+                return ("REJECT. Offending Token '" + input_stack.peek() + "'") ;
             }
             else{
                 if(grammar_stack.isEmpty()){
-                    System.out.println("ACCEPT");
+                    return "ACCEPT";
                 }
                 else{
                     while(!grammar_stack.isEmpty()){
@@ -163,9 +163,9 @@ public class Main {
                     }
 
                     if(grammar_stack.isEmpty())
-                        System.out.println("ACCEPT");
+                        return "ACCEPT";
                     else
-                        System.out.println("REJECT");
+                        return ("REJECT. Missing Token '" + grammar_stack.peek().getName() + "'") ;
                 }
             }
         }
@@ -186,9 +186,11 @@ public class Main {
 
         while( (line = br.readLine()) != null){
             if(!line.equals("")){
+                fw.append(line + " - ");
                 line = line.replace(" ", "");
                 startup(line);
-                parse();
+                fw.append(parse());
+                fw.append("\n");
 
                 grammar_stack = new Stack<StringKind>();
                 history_stack = new Stack<ArrayList<StringKind> >();
@@ -201,6 +203,7 @@ public class Main {
             }
         }
 
+        System.out.println("Parsing Complete!");
         // System.out.println("HELLO = "+grammar_rules.keySet().contains("digit"));
         // grammar_rules.entrySet().forEach(rule->{
         //     System.out.println(rule.getValue().getLHS().getName() + "  KIND = " + rule.getValue().getLHS().getKind());
@@ -213,6 +216,7 @@ public class Main {
         //     }
         // });
         
+        fr.close();
         fw.close();
     }
 }
