@@ -172,14 +172,14 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        File grammar_file = new File("src/grammarfile.txt");
+        File grammar_file = new File("PS-Parser/src/grammarfile.txt");
 
-        File input_file = new File("src/inputfile.txt");
+        File input_file = new File("PS-Parser/src/inputfile.txt");
         FileReader fr = new FileReader(input_file);
         BufferedReader br = new BufferedReader(fr);
         String line;
 
-        FileWriter fw = new FileWriter("src/output.txt");
+        FileWriter fw = new FileWriter("PS-Parser/src/output.txt");
         
         GenerateRule generate_rule = new GenerateRule(grammar_file);
         grammar_rules = generate_rule.generate();
