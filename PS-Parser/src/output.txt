@@ -1,7 +1,7 @@
 ((((1 + 10)) - REJECT. Missing Token 'CLOSE_PAREN'
 1 * 10 * 10 + 4 + (6 + 12345) - ACCEPT
 [1 + 10] = 11 - REJECT. Offending Token '='
-1 + + 10 * 5 * 4 * 3 + 2 * 1 = = - REJECT. Offending Token '+'
+(1 + 10 * 5 * 4 * 3 + 2 * ) - REJECT. Offending Token ')'
 ++++++++++++++++ - REJECT. Offending Token '+'
 5 - ACCEPT
 (1 + 4) * (6 + 4) - ACCEPT
