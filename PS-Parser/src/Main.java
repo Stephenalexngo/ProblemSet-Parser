@@ -53,13 +53,25 @@ public class Main {
             curMultiple = 0;
             isRequired = true;
         }
-        else{
+        else if(grammar_stack.peek().getKind().equals("onetomany")){
             if(curMultiple == 0){
                 curMultiple = 1;
                 isRequired = true;
             }
             else if(curMultiple == 1){
                 isRequired = false;
+            }
+        }
+        else if(grammar_stack.peek().getKind().equals("zerotomany")){
+            if(curMultiple == 0){
+                curMultiple = 1;
+                isRequired = false;
+            }
+        }
+        else{
+            if(curMultiple == 0){
+                isRequired = false;
+                grammar_stack.pop();
             }
         }
         
@@ -90,6 +102,7 @@ public class Main {
             if(!isRequired){
                 grammar_stack.pop();
                 isRequired = true;
+                curMultiple = 0;
             }
             else if(history_parent.getName().equals("null")){
                 isAccepted = false;
